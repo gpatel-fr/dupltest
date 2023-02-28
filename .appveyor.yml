@@ -6,12 +6,15 @@ environment:
     AUTOUPDATER_Duplicati_SKIP_UPDATE: 1
     COVERALLS_REPO_TOKEN:
         secure: fGV//9cHYc52EZ5NHiVP1e5KDGHghOldqQeV5BgZzieguv4Q3JwATSgjMzpsMDeZ
+    APPVEYOR_RDP_PASSWORD: V0$IARxNf        
 before_build:
     - ps: $env:UNITTEST_BASEFOLDER = "$Env:APPVEYOR_BUILD_FOLDER" + "\testdata"
     - cmd: nuget restore Duplicati.sln
 build:
     project: Duplicati.sln
     verbosity: minimal
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1')      
 test_script:
     - ps: |
         nuget install OpenCover -Version 4.7.922 -OutputDirectory packages
