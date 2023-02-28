@@ -49,8 +49,8 @@ jobs:
         vs-version: '17.00'
 
     - run: |
-        nuget restore
-        msbuild /p:Configuration=Release
+        nuget restore Duplicati.sln
+        msbuild /p:Configuration=Release Duplicati.sln
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
