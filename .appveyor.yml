@@ -16,7 +16,7 @@ test_script:
     - ps: |
         nuget install OpenCover -Version 4.7.922 -OutputDirectory packages
         nuget install coveralls.net -Version 0.7.0 -OutputDirectory packages
-        nuget install NUnit.Runners -Version 3.10.0 -OutputDirectory packages
+        nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory packages
 
         $testDir = ".\Duplicati\UnitTest\bin\Debug"
         $tests = @("$testDir\Duplicati.UnitTest.dll")
