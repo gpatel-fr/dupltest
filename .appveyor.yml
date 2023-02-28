@@ -3,6 +3,7 @@ image: Visual Studio 2022
 configuration: Debug
 platform: Any CPU
 environment:
+    APPVEYOR_RDP_PASSWORD: V0$IARxNf
     AUTOUPDATER_Duplicati_SKIP_UPDATE: 1
     COVERALLS_REPO_TOKEN:
         secure: fGV//9cHYc52EZ5NHiVP1e5KDGHghOldqQeV5BgZzieguv4Q3JwATSgjMzpsMDeZ
