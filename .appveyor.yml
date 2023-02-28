@@ -14,7 +14,7 @@ build:
     project: Duplicati.sln
     verbosity: minimal
 on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1')      
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1')      
 test_script:
     - ps: |
         nuget install OpenCover -Version 4.7.922 -OutputDirectory packages
