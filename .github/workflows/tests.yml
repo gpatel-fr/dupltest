@@ -60,21 +60,12 @@ jobs:
         name: test-results
         path: TestResult_*.xml
 
-    - name: Upload win build results
-      if: matrix.os == 'windows-latest'
+    - name: Upload build results
       uses: actions/upload-artifact@v3
       with:
-        retention-days: 2
+        retention-days: 5
         name: build-results
-        path: $env:TEMP\artifacts\*
-
-    - name: Upload linux/mac build results
-      if: matrix.os != 'windows-latest'
-      uses: actions/upload-artifact@v3
-      with:
-        retention-days: 2
-        name: build-results
-        path: ${TEMP}/artifacts/*
+        path: {{ env.TEMP }}/artifacts/*
 
   ui_tests:
     name: UI tests
