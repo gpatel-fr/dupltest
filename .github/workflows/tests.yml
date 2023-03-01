@@ -68,10 +68,10 @@ jobs:
     # what we need (https://github.com/actions/runner/issues/646).
     steps:
     - name: Checkout Source
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v3
 
     - name: Install NuGet
-      uses: nuget/setup-nuget@v1.0.5
+      uses: nuget/setup-nuget@v1.1.1
 
     - name: Restore NuGet Packages
       run: nuget restore Duplicati.sln
@@ -96,5 +96,4 @@ jobs:
       run: |
         cp -r Duplicati/Server/webroot "${{ env.build_directory }}"/webroot
         mono "${{ env.build_directory }}"/Duplicati.Server.exe &
-        sleep 10
         python3 guiTests/guiTest.py
