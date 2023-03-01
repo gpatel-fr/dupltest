@@ -96,5 +96,5 @@ jobs:
       run: |
         cp -r Duplicati/Server/webroot "${{ env.build_directory }}"/webroot
         mono "${{ env.build_directory }}"/Duplicati.Server.exe &
-        sleep 5
+        sleep 10
         python3 guiTests/guiTest.py
