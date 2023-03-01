@@ -15,5 +15,6 @@ bash -x Installer\Windows\bundleduplicati.sh
 cd Installer\Windows
 call build-msi %RUNTMP%\bundleduplicati.zip
 mkdir %RUNTMP%\artifacts
+@echo on
 move *.msi %RUNTMP%\artifacts
 cd ..\..
