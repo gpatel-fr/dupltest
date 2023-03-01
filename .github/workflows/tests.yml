@@ -9,6 +9,8 @@ jobs:
   unit_tests:
     name: Unit tests
     runs-on: ${{ matrix.os }}
+    env:
+      RUN_OS: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -44,13 +46,20 @@ jobs:
       if: matrix.os != 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll
+        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=Duplicati.UnitTest.BackendToolTests.Get --result=TestResult_${RUN_OS}.xml
 
     - name: Run Unit Tests (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll
+        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:Duplicati.UnitTest.BackendToolTests.Get /result:TestResult_$env:RUN_OS.xml
+
+    - name: Upload test result
+      uses: actions/upload-artifact@v3
+      with:
+        retention-days: 2
+        name: test-results
+        path: TestResult_*.xml
 
   ui_tests:
     name: UI tests
