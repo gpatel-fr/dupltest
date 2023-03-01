@@ -10,8 +10,13 @@
 @rem   - install nuget from https://learn.microsoft.com/en-us/nuget/install-nuget-client-tools
 @rem   - install wix 3 from https://wixtoolset.org
 @rem   - add to the PATH msbuild, wix3 and nuget
-set RUNTMP=%TEMP%
+set RUNTMP=%USERPROFILE%
+where /q bash.exe
+if ERRORLEVEL 1 (
+git-bash -x Installer\Windows\bundleduplicati.sh
+) ELSE (
 bash -x Installer\Windows\bundleduplicati.sh
+)
 cd Installer\Windows
 call build-msi %RUNTMP%\bundleduplicati.zip
 mkdir %RUNTMP%\artifacts

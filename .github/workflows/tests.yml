@@ -44,28 +44,21 @@ jobs:
       if: matrix.os != 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=Duplicati.UnitTest.BackendToolTests.Get --result=TestResult_${RUNNER_OS}.xml
+        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=Duplicati.UnitTest.BackendToolTests.Get
 
     - name: Run Unit Tests (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:Duplicati.UnitTest.BackendToolTests.Get /result:TestResult_$env:RUNNER_OS.xml
+        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:Duplicati.UnitTest.BackendToolTests.Get
         .\\Installer\\Windows\\artifact_win.bat
-
-    - name: Upload test result
-      uses: actions/upload-artifact@v3
-      with:
-        retention-days: 2
-        name: test-results
-        path: TestResult_*.xml
 
     - name: Upload build results
       uses: actions/upload-artifact@v3
       with:
         retention-days: 5
         name: build-results
-        path: ${{ env.TEMP }}/artifacts/*
+        path: ~/artifacts/**/*
 
   ui_tests:
     name: UI tests
