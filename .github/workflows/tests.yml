@@ -65,7 +65,7 @@ jobs:
       with:
         retention-days: 5
         name: build-results
-        path: {{ env.TEMP }}/artifacts/*
+        path: ${{ env.TEMP }}/artifacts/*
 
   ui_tests:
     name: UI tests
