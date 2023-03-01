@@ -11,7 +11,7 @@
 @rem   - install wix 3 from https://wixtoolset.org
 @rem   - add to the PATH msbuild, wix3 and nuget
 set RUNTMP=%TEMP%
-git-bash -x Installer\Windows\bundleduplicati.sh
+bash -x Installer\Windows\bundleduplicati.sh
 cd Installer\Windows
 call build-msi %RUNTMP%\bundleduplicati.zip
 mkdir %RUNTMP%\artifacts
