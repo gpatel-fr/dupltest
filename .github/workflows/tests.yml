@@ -51,6 +51,7 @@ jobs:
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:Duplicati.UnitTest.BackendToolTests.Get /result:TestResult_$env:RUNNER_OS.xml
+        Installer/Windows/artifact.bat
 
     - name: Upload test result
       uses: actions/upload-artifact@v3
@@ -58,6 +59,22 @@ jobs:
         retention-days: 2
         name: test-results
         path: TestResult_*.xml
+
+    - name: Upload win build results
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v3
+      with:
+        retention-days: 2
+        name: build-results
+        path: $env:TEMP\artifacts\*
+
+    - name: Upload linux/mac build results
+      if: matrix.os != 'windows-latest'
+      uses: actions/upload-artifact@v3
+      with:
+        retention-days: 2
+        name: build-results
+        path: ${TEMP}/artifacts/*
 
   ui_tests:
     name: UI tests
