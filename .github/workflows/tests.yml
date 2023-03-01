@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Add msbuild to PATH (Windows)
       if: matrix.os == 'windows-latest'
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.3
 
     - name: Install NuGet
       uses: nuget/setup-nuget@v1.1.1
@@ -83,7 +83,7 @@ jobs:
       run: msbuild -p:Configuration=Release -p:DefineConstants=ENABLE_GTK Duplicati.sln
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.x
 
