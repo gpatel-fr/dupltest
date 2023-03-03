@@ -13,9 +13,9 @@
 set RUNTMP=%USERPROFILE%
 where /q bash.exe
 if ERRORLEVEL 1 (
-git-bash -x Installer\Windows\bundleduplicati.sh
+git-bash -x Installer\bundleduplicati.sh
 ) ELSE (
-bash -x Installer\Windows\bundleduplicati.sh
+bash -x Installer\bundleduplicati.sh
 )
 cd Installer\Windows
 call build-msi %RUNTMP%\bundleduplicati.zip

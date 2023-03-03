@@ -1,6 +1,9 @@
 #!/bin/bash
+# ripped from build-release.sh
 
+# directory where files are stored
 UPDATE_SOURCE="${RUNTMP}/tmpinstduplicati"
+# zip output to be used by the installers
 ZIPRESULT="${RUNTMP}/bundleduplicati.zip" 
 
 if [ -e "${UPDATE_SOURCE}" ]; then rm -rf "${UPDATE_SOURCE}"; fi
