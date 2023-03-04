@@ -67,7 +67,7 @@ jobs:
           Installer/debian/artifact_deb.sh
 
     - name: Upload build results
-      if: matrix.os == 'windows-latest'
+      if: matrix.os != 'macos-latest'
       uses: actions/upload-artifact@v3
       with:
         retention-days: 5
