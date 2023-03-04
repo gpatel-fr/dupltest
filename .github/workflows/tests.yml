@@ -60,7 +60,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: .\\Installer\\Windows\\artifact_win.bat
 
-    - name: Build installers (Linux)
+    - name: Build installers (Deb)
       if: matrix.os == 'ubuntu-latest'
       run: Installer/debian/artifact_deb.sh
 
