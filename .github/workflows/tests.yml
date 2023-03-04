@@ -71,7 +71,8 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         retention-days: 5
-        name: build-results
+        name: build-results-${{ matrix.os }}
+
         path: ~/artifacts/**/*
 
   ui_tests:
