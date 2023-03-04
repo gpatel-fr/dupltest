@@ -27,7 +27,7 @@ set RELEASE_NAME=%RELEASE_VERSION%_%RELEASE_TYPE%_%RELEASE_TIMESTAMP%
 
 set RELEASE_FILE_NAME=duplicati-%RELEASE_NAME%
 
-set RUNTMP=%TEMP%
+set RUNTMP=%USERPROFILE%
 where /q bash.exe
 if ERRORLEVEL 1 (
 git-bash -x Installer\bundleduplicati.sh %RELEASE_NAME%
