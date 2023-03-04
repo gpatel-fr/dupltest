@@ -62,7 +62,9 @@ jobs:
 
     - name: Build installers (Deb)
       if: matrix.os == 'ubuntu-latest'
-      run: Installer/debian/artifact_deb.sh
+      run: |
+          sudo apt install debhelper
+          Installer/debian/artifact_deb.sh
 
     - name: Upload build results
       if: matrix.os == 'windows-latest'
