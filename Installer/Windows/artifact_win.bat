@@ -1,3 +1,5 @@
+@rem start this batch from the root Duplicati git directory
+
 @rem Installation instructions when building locally (March 2023)
 @rem The life expectancy of any URL on MS servers is about one or two years
 @rem so links can become obsolete fast.
@@ -10,16 +12,32 @@
 @rem   - install nuget from https://learn.microsoft.com/en-us/nuget/install-nuget-client-tools
 @rem   - install wix 3 from https://wixtoolset.org
 @rem   - add to the PATH msbuild, wix3 and nuget
-set RUNTMP=%USERPROFILE%
+
+for /f "tokens=2 delims==" %%a in ('wmic os get localdatetime /value') do set dt=%%a
+set RELEASE_TIMESTAMP=%dt:~0,4%-%dt:~4,2%-%dt:~6,2%
+
+set RELEASE_INC_VERSION=$(cat Updates/build_version.txt)
+for /f %%a in ('type updates\build_version.txt') do set RELEASE_INC_VERSION=%%a
+set /a RELEASE_INC_VERSION=%RELEASE_INC_VERSION%+1
+
+set RELEASE_TYPE=canary
+
+set RELEASE_VERSION=2.0.6.%RELEASE_INC_VERSION%
+set RELEASE_NAME=%RELEASE_VERSION%_%RELEASE_TYPE%_%RELEASE_TIMESTAMP%
+
+set RELEASE_FILE_NAME=duplicati-%RELEASE_NAME%
+
+set RUNTMP=%TEMP%
 where /q bash.exe
 if ERRORLEVEL 1 (
-git-bash -x Installer\bundleduplicati.sh
+git-bash -x Installer\bundleduplicati.sh %RELEASE_NAME%
 ) ELSE (
-bash -x Installer\bundleduplicati.sh
+bash -x Installer\bundleduplicati.sh %RELEASE_NAME%
 )
 cd Installer\Windows
-call build-msi %RUNTMP%\bundleduplicati.zip
+call build-msi %RUNTMP%\%RELEASE_NAME%
 mkdir %RUNTMP%\artifacts
-@echo on
-move *.msi %RUNTMP%\artifacts
+move duplicati.msi %RUNTMP%\artifacts\duplicati-%RELEASE_NAME%.msi
+move duplicati-32bit.msi %RUNTMP%\artifacts\duplicati-32bit-%RELEASE_NAME%.msi
 cd ..\..
+

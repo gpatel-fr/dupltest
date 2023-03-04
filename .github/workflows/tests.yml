@@ -56,9 +56,13 @@ jobs:
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:Duplicati.UnitTest.BackendToolTests.Get
 
-    - name: Build (Windows)
+    - name: Build installers (Windows)
       if: matrix.os == 'windows-latest'
       run: .\\Installer\\Windows\\artifact_win.bat
+
+    - name: Build installers (Linux)
+      if: matrix.os == 'linux-latest'
+      run: Installer/debian/artifact_deb.sh
 
     - name: Upload build results
       if: matrix.os == 'windows-latest'

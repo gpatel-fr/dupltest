@@ -4,12 +4,12 @@
 # directory where files are stored
 UPDATE_SOURCE="${RUNTMP}/tmpinstduplicati"
 # zip output to be used by the installers
-ZIPRESULT="${RUNTMP}/bundleduplicati.zip" 
+ZIPRESULT="${RUNTMP}/$1" 
 
 if [ -e "${UPDATE_SOURCE}" ]; then rm -rf "${UPDATE_SOURCE}"; fi
 if [ -f "${ZIPRESULT}" ]; then rm -rf "${ZIPRESULT}"; fi
 
-mkdir "${UPDATE_SOURCE}"
+mkdir -p "${UPDATE_SOURCE}"
 
 cp -R Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/Release/* "${UPDATE_SOURCE}"
 cp -R Duplicati/Server/webroot "${UPDATE_SOURCE}"
@@ -28,7 +28,7 @@ for BACKEND in Duplicati/Library/Backend/*; do
 done
 
 # Install the assembly redirects for all Duplicati .exe files
-find "${UPDATE_SOURCE}" -type f -name Duplicati.*.exe -maxdepth 1 -exec cp Installer/AssemblyRedirects.xml {}.config \;
+find "${UPDATE_SOURCE}" -maxdepth 1 -type f -name Duplicati.*.exe -exec cp Installer/AssemblyRedirects.xml {}.config \;
 
 # Clean some unwanted build files
 for FILE in "control_dir" "Duplicati-server.sqlite" "Duplicati.debug.log" "updates"; do
@@ -52,8 +52,7 @@ find  . -type f -name ".DS_Store" | xargs rm -rf
 find  . -type f -name "Thumbs.db" | xargs rm -rf
 
 # bundle everything info a zip file
-pushd
-cd "${UPDATE_SOURCE}"
-7z a -r "${ZIPRESULT}"
+pushd "${UPDATE_SOURCE}"
+7z a -tzip -r "${ZIPRESULT}"
 popd
 rm "${UPDATE_SOURCE}" -rf
