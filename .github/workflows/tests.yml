@@ -69,15 +69,13 @@ jobs:
     - name: Build installers (OSX)
       if: matrix.os == 'macos-latest'
       run: |
-          Installer/debian/artifact_mac.sh
+          Installer/OSX/artifact_mac.sh
 
     - name: Upload build results
-      if: matrix.os != 'macos-latest'
       uses: actions/upload-artifact@v3
       with:
         retention-days: 5
         name: build-results-${{ matrix.os }}
-
         path: ~/artifacts/**/*
 
   ui_tests:
