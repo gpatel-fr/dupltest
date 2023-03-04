@@ -65,6 +65,11 @@ jobs:
       run: |
           sudo apt install debhelper
           Installer/debian/artifact_deb.sh
+          
+    - name: Build installers (OSX)
+      if: matrix.os == 'macos-latest'
+      run: |
+          Installer/debian/artifact_mac.sh
 
     - name: Upload build results
       if: matrix.os != 'macos-latest'
