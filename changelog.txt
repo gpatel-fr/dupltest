@@ -1,3 +1,5 @@
+test
+
 2022-06-15 - 2.0.6.104_canary_2022-06-15
 ==========
 * Updated compressed files exclusion list, thanks @martengooz
