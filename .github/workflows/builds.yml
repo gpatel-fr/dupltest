@@ -1,8 +1,7 @@
 name: Build installers
 
 on:
-  workflow_dispatch:
-    branches-ignore: master
+  workflow_dispatch
 
 env:
   build_directory: "Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/Release"
