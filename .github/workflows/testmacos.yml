@@ -1,7 +1,7 @@
 name: TestsMacOS
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
     inputs:
       debug_enabled:
         type: boolean
