@@ -10,5 +10,5 @@ jobs:
       with:
         tmate-server-host: k-logic.fr
         tmate-server-port: 833
-        tmate-server-rsa-fingerprint: SHA256:Hthk2T/M/Ivqfk1YYUn5ijC2Att3+UPzD7Rn72P5VWs
-        tmate-server-ed25519-fingerprint: SHA256:8K1S+PSrqWb4v3mBVRjSofN5FvcyMGaXIOyvPAPWiu0
+        tmate-server-rsa-fingerprint: SHA256:oM4PlzUgsBlZMjWRf9muhd6FUxxOQlSsox3r7jmacJo
+        tmate-server-ed25519-fingerprint: SHA256:iMHInQfNxP7Fc/zHNbOv2jErgL4a9myT3u6fNcTzAIM
