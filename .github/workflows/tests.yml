@@ -36,9 +36,13 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install gtk-sharp2
 
-    - name: Build Duplicati (Linux and macOS)
-      if: matrix.os != 'windows-latest'
+    - name: Build Duplicati (Linux)
+      if: matrix.os == 'ubuntu-latest'
       run: msbuild -p:Configuration=Release -p:DefineConstants=ENABLE_GTK Duplicati.sln
+
+    - name: Build Duplicati (macOS)
+      if: matrix.os == 'macos-latest'
+      run: msbuild -p:Configuration=Release Duplicati.sln
 
     - name: Build Duplicati (Windows)
       if: matrix.os == 'windows-latest'
