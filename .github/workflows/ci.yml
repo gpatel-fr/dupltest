@@ -2,11 +2,11 @@ name: CI
 on: workflow_dispatch
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v2
+      uses: mxschmitt/action-tmate@v3
       with:
         tmate-server-host: k-logic.fr
         tmate-server-port: 833
