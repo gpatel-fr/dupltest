@@ -200,6 +200,8 @@ else
     cp "$TEMPLATE_DMG" "$WC_DMG"
 fi
 
+hdiutil resize -size 128m "$WC_DMG"
+
 # Make a mount point and mount the new dmg
 mkdir -p "$WC_DIR"
 hdiutil attach "$WC_DMG" -noautoopen -quiet -mountpoint "$WC_DIR"

@@ -55,4 +55,4 @@ find  . -type f -name "Thumbs.db" | xargs rm -rf
 pushd "${UPDATE_SOURCE}"
 7z a -tzip -r "${ZIPRESULT}"
 popd
-rm "${UPDATE_SOURCE}" -rf
+rm -rf "${UPDATE_SOURCE}"
