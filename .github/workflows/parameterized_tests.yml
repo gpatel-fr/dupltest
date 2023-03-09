@@ -73,7 +73,9 @@ jobs:
       run: |
         $p=$env:repeat_factor
         echo $p
-        $p=$p | Out-String
+        $x=$p | Out-String
+        echo $x
+        $p=${{ inputs.repeat_factor }}
         echo $p
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         do { nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }} ; $p=$p-1 } until ( $p -le 0 )
