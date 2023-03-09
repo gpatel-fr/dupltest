@@ -65,7 +65,7 @@ jobs:
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         tot=${{ inputs.repeat_factor }}
-        $sep="----------------------------------------------------------------"
+        sep="----------------------------------------------------------------"
         for (( i=1; i<=$tot; i++)) ; do mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ inputs.test_to_run }} ; echo $sep" ("$i"/"$tot")"; done
 
     - name: Run Unit Tests (Windows)
