@@ -1,0 +1,71 @@
+name: Parameterized tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      operating_system:
+        type: choice              
+        description: 'runner os'
+        required: true
+        options:
+        - ubuntu-latest
+        - windows-latest
+        - macos-latest
+      test_to_run:
+        description: 'test to run'
+        required: true
+
+env:
+  build_directory: "Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/Release"
+
+jobs:
+  unit_tests:
+    name: Unit tests
+    runs-on: ${{ github.event.operating_system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [${{ github.event.operating_system }}]
+
+    steps:
+    - name: Add msbuild to PATH (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: microsoft/setup-msbuild@v1.3
+
+    - name: Install NuGet
+      uses: nuget/setup-nuget@v1.1.1
+
+    - name: Checkout Source
+      uses: actions/checkout@v3
+
+    - name: Restore NuGet Packages
+      run: nuget restore Duplicati.sln
+
+    - name: Install Additional Dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install gtk-sharp2
+
+    - name: Build Duplicati (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: msbuild -p:Configuration=Release -p:DefineConstants=ENABLE_GTK Duplicati.sln
+
+    - name: Build Duplicati (macOS)
+      if: matrix.os == 'macos-latest'
+      run: msbuild -p:Configuration=Release Duplicati.sln
+
+    - name: Build Duplicati (Windows)
+      if: matrix.os == 'windows-latest'
+      run: msbuild -p:Configuration=Release Duplicati.sln
+
+    - name: Run Unit Tests (Linux and macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
+        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ github.event.test_to_run }}
+
+    - name: Run Unit Tests (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
+        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ github.event.test_to_run }}
+
