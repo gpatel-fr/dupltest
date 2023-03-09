@@ -21,7 +21,7 @@ env:
 jobs:
   unit_tests:
     name: Unit tests
-    runs-on: ${{ github.event.operating_system }}
+    runs-on: ${{ inputs.operating_system }}
     strategy:
       fail-fast: false
 
