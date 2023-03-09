@@ -1,29 +1,36 @@
 #!/bin/bash
+# zip all files needed for installers 
 # ripped from build-release.sh
+# must be run from root duplicati source
+# first parameter: zip path to generate
+# extended to debug builds (optional second parameter)
+# the env variable RUNTMP should point to temp dir
 
 # directory where files are stored
 UPDATE_SOURCE="${RUNTMP}/tmpinstduplicati"
 # zip output to be used by the installers
-ZIPRESULT="${RUNTMP}/$1" 
+ZIPRESULT="${RUNTMP}/$1"
+BUILDTYPE="Release"
+if [ "$2" == "debug" ]; then BUILDTYPE="Debug"; fi
 
 if [ -e "${UPDATE_SOURCE}" ]; then rm -rf "${UPDATE_SOURCE}"; fi
 if [ -f "${ZIPRESULT}" ]; then rm -rf "${ZIPRESULT}"; fi
 
 mkdir -p "${UPDATE_SOURCE}"
 
-cp -R Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/Release/* "${UPDATE_SOURCE}"
+cp -R Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/$BUILDTYPE/* "${UPDATE_SOURCE}"
 cp -R Duplicati/Server/webroot "${UPDATE_SOURCE}"
 
 # We copy some files for alphavss manually as they are not picked up by xbuild
 mkdir "${UPDATE_SOURCE}/alphavss"
-for FN in Duplicati/Library/Snapshots/bin/Release/AlphaVSS.*.dll; do
+for FN in Duplicati/Library/Snapshots/bin/$BUILDTYPE/AlphaVSS.*.dll; do
 	cp "${FN}" "${UPDATE_SOURCE}/alphavss/"
 done
 
 # Fix for some support libraries not being picked up
 for BACKEND in Duplicati/Library/Backend/*; do
-	if [ -d "${BACKEND}/bin/Release/" ]; then
-		cp "${BACKEND}/bin/Release/"*.dll "${UPDATE_SOURCE}"
+	if [ -d "${BACKEND}/bin/$BUILDTYPE/" ]; then
+		cp "${BACKEND}/bin/$BUILDTYPE/"*.dll "${UPDATE_SOURCE}"
 	fi
 done
 

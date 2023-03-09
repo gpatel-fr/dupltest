@@ -1,4 +1,4 @@
-name: Build installers
+name: Build debug installers
 
 on:
   workflow_dispatch
@@ -35,30 +35,30 @@ jobs:
 
     - name: Build Duplicati (Linux)
       if: matrix.os == 'ubuntu-latest'
-      run: msbuild -p:Configuration=Release -p:DefineConstants=ENABLE_GTK Duplicati.sln
+      run: msbuild -p:Configuration=Debug -p:DefineConstants=ENABLE_GTK Duplicati.sln
 
     - name: Build Duplicati (macOS)
       if: matrix.os == 'macos-latest'
-      run: msbuild -p:Configuration=Release Duplicati.sln
+      run: msbuild -p:Configuration=Debug Duplicati.sln
 
     - name: Build Duplicati (Windows)
       if: matrix.os == 'windows-latest'
-      run: msbuild -p:Configuration=Release Duplicati.sln
+      run: msbuild -p:Configuration=Debug Duplicati.sln
 
     - name: Build installers (Windows)
       if: matrix.os == 'windows-latest'
-      run: .\\Installer\\Windows\\artifact_win.bat
+      run: .\\Installer\\Windows\\artifact_win.bat debug
 
     - name: Build installers (Deb)
       if: matrix.os == 'ubuntu-latest'
       run: |
           sudo apt install debhelper
-          Installer/debian/artifact_deb.sh
+          Installer/debian/artifact_deb.sh debug
           
     - name: Build installers (OSX)
       if: matrix.os == 'macos-latest'
       run: |
-          Installer/OSX/artifact_mac.sh
+          Installer/OSX/artifact_mac.sh debug
 
     - name: Upload build results
       uses: actions/upload-artifact@v3

@@ -1,7 +1,6 @@
 # Installation instructions when building locally (March 2023)
-# add ppa https://download.mono-project.com/repo/ubuntu stable-focal main
-# install p7zip, build-essential, debhelper, dpkg-dev, mono-devel,
-# libappindicator0.1-cil-dev, ca-certificates-mono, gtk-sharp2
+
+# optional first parameter: debug build
 
 RELEASE_TIMESTAMP=$(date +%Y-%m-%d)
 
@@ -16,7 +15,7 @@ RELEASE_NAME="${RELEASE_VERSION}_${RELEASE_TYPE}_${RELEASE_TIMESTAMP}"
 RELEASE_FILE_NAME="duplicati-${RELEASE_NAME}"
 
 export RUNTMP=$HOME
-bash -x Installer/bundleduplicati.sh $RELEASE_FILE_NAME
+bash -x Installer/bundleduplicati.sh $RELEASE_FILE_NAME $1
 cd Installer/OSX
 bash -x make-dmg.sh $RUNTMP/$RELEASE_FILE_NAME
 mkdir -p $RUNTMP/artifacts

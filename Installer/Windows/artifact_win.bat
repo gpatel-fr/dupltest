@@ -1,4 +1,5 @@
 @rem start this batch from the root Duplicati git directory
+@rem optional first parameter: if debug, use debug installer
 
 @rem Installation instructions when building locally (March 2023)
 @rem The life expectancy of any URL on MS servers is about one or two years
@@ -30,9 +31,9 @@ set RELEASE_FILE_NAME=duplicati-%RELEASE_NAME%
 set RUNTMP=%USERPROFILE%
 where /q bash.exe
 if ERRORLEVEL 1 (
-git-bash -x Installer\bundleduplicati.sh %RELEASE_NAME%
+git-bash -x Installer\bundleduplicati.sh %RELEASE_NAME% %1
 ) ELSE (
-bash -x Installer\bundleduplicati.sh %RELEASE_NAME%
+bash -x Installer\bundleduplicati.sh %RELEASE_NAME% %1
 )
 cd Installer\Windows
 call build-msi %RUNTMP%\%RELEASE_NAME%
