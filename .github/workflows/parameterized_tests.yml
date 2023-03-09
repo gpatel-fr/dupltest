@@ -71,5 +71,5 @@ jobs:
       run: |
         $p=${{ inputs.repeat_factor }}
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        do { nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }} ; $p=$p-1 } until ( $p -le 0 )
+        do { nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }} ; echo "----------------------" ; $p=$p-1 } until ( $p -le 0 )
 
