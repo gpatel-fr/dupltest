@@ -64,14 +64,16 @@ jobs:
       if: inputs.operating_system != 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ inputs.test_to_run }}
+        tot=${{ inputs.repeat_factor }}
+        $sep="----------------------------------------------------------------"
+        for (( i=1; i<=$tot; i++)) ; do mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ inputs.test_to_run }} ; echo $sep" ("$i"/"$tot")"; done
 
     - name: Run Unit Tests (Windows)
       if: inputs.operating_system == 'windows-latest'
       run: |
+        nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         $tot=${{ inputs.repeat_factor }}
         $p=1
         $sep="----------------------------------------------------------------"
-        nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
         do { nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }} ; echo $sep" ("$p"/"$tot")"  ; $p=$p+1 } until ( $p -gt $tot )
 
