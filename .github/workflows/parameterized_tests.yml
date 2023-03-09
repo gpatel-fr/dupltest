@@ -39,6 +39,9 @@ jobs:
     - name: Restore NuGet Packages
       run: nuget restore Duplicati.sln
 
+    - name: showall
+      run: ${{ env }}
+
     - name: Install Additional Dependencies
       if: ${{ inputs.operating_system }} == 'ubuntu-latest'
       run: sudo apt-get install gtk-sharp2
