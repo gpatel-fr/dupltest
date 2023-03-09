@@ -14,6 +14,10 @@ on:
       test_to_run:
         description: 'test to run'
         required: true
+      repeat_factor:
+        description: 'number of times to run the test'
+        required: true
+        default: 1
 
 env:
   build_directory: "Duplicati/GUI/Duplicati.GUI.TrayIcon/bin/Release"
@@ -66,5 +70,6 @@ jobs:
       if: inputs.operating_system == 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }}
+        $p=inputs.repeat_factor
+        do { nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }} ; $p=$p-1 } until { $p -le 0 }
 
