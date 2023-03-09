@@ -40,7 +40,9 @@ jobs:
       run: nuget restore Duplicati.sln
 
     - name: showall
-      run: ${{ env }}
+      run: |
+         echo ${{ inputs.operating_system }}
+         echo ${{ github.event.operating_system }}
 
     - name: Install Additional Dependencies
       if: ${{ inputs.operating_system }} == 'ubuntu-latest'
