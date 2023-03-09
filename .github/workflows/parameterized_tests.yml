@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - name: Add msbuild to PATH (Windows)
-      if: ${{ github.event.operating_system }} == 'windows-latest'
+      if: ${{ inputs.operating_system }} == 'windows-latest'
       uses: microsoft/setup-msbuild@v1.3
 
     - name: Install NuGet
@@ -40,30 +40,30 @@ jobs:
       run: nuget restore Duplicati.sln
 
     - name: Install Additional Dependencies
-      if: ${{ github.event.operating_system }} == 'ubuntu-latest'
+      if: ${{ inputs.operating_system }} == 'ubuntu-latest'
       run: sudo apt-get install gtk-sharp2
 
     - name: Build Duplicati (Linux)
-      if: ${{ github.event.operating_system }} == 'ubuntu-latest'
+      if: ${{ inputs.operating_system }} == 'ubuntu-latest'
       run: msbuild -p:Configuration=Release -p:DefineConstants=ENABLE_GTK Duplicati.sln
 
     - name: Build Duplicati (macOS)
-      if: ${{ github.event.operating_system }} == 'macos-latest'
+      if: ${{ inputs.operating_system }} == 'macos-latest'
       run: msbuild -p:Configuration=Release Duplicati.sln
 
     - name: Build Duplicati (Windows)
-      if: ${{ github.event.operating_system }} == 'windows-latest'
+      if: ${{ inputs.operating_system }} == 'windows-latest'
       run: msbuild -p:Configuration=Release Duplicati.sln
 
     - name: Run Unit Tests (Linux and macOS)
-      if: ${{ github.event.operating_system }} != 'windows-latest'
+      if: ${{ inputs.operating_system }} != 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ github.event.test_to_run }}
+        mono nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll --test=${{ inputs.test_to_run }}
 
     - name: Run Unit Tests (Windows)
-      if: ${{ github.event.operating_system }} == 'windows-latest'
+      if: ${{ inputs.operating_system }} == 'windows-latest'
       run: |
         nuget install NUnit.Runners -Version 3.12.0 -OutputDirectory nunit
-        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ github.event.test_to_run }}
+        nunit/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe Duplicati/UnitTest/bin/Release/Duplicati.UnitTest.dll /test:${{ inputs.test_to_run }}
 
